@@ -1699,6 +1699,7 @@
     <Content Include="Template\fonts\Roboto\Roboto-Regular.woff2" />
     <Content Include="Views\Shared\_Layout_Login.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Login\RegistrarCuenta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -20,5 +20,10 @@ namespace Web01.Controllers
             return View();
         }
 
+        public ActionResult RegistrarCuenta()
+        {
+            return View();
+        }
+
     }
 }
