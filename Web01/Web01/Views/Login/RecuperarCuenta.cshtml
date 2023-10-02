@@ -1,31 +1,32 @@
-﻿
+﻿@model Web01.Entities.UsuarioEnt
+
 @{
     ViewBag.Title = "RecuperarCuenta";
     Layout = "~/Views/Shared/_Layout_Login.cshtml";
 }
 
-<div class="container-fluid page-body-wrapper full-page-wrapper">
-    <div class="content-wrapper d-flex align-items-center auth px-0">
-        <div class="row w-100 mx-0">
-            <div class="col-lg-4 mx-auto">
-                <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-                    <div class="brand-logo">
-                        <img src="~/Template/images/logo.svg" alt="logo">
-                    </div>
-                    <form class="pt-3">
+<div class="content-wrapper d-flex align-items-center auth px-0">
+    <div class="row w-100 mx-0">
+        <div class="col-lg-4 mx-auto">
+            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+                <div class="brand-logo">
+                    <img src="~/Template/images/logo.svg" alt="logo">
+                </div>
+                    @using (Html.BeginForm("RecuperarCuenta", "Login", FormMethod.Post, new { @class = "pt-3" }))
+                    {
                         <div class="form-group">
-                            <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Correo Electronico">
+                            @Html.TextBoxFor(m => m.Correo, new { @type = "email", @class = "form-control form-control-lg", @placeholder = "Correo Electronico" })
                         </div>
                         <div class="mt-3">
-                            <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="~/Template/index.html">RECUPERAR CUENTA</a>
+                            <input type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" value="Recuperar Cuenta" />
                         </div>
                         <div class="text-center mt-4 font-weight-light">
-                            Ya tienes una cuenta? <a href=@Url.Action("Login","Login") class="text-primary">Login</a>
+                            Ya tienes una cuenta? <a href=@Url.Action("Login","Login") class="text-primary">Ingresar</a>
                         </div>
-                    </form>
-                </div>
+                    }
             </div>
         </div>
     </div>
 </div>
+
 

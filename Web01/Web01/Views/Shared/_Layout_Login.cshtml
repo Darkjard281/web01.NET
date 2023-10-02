@@ -1,7 +1,5 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -15,43 +13,47 @@
     <link rel="stylesheet" href="~/template/css/vertical-layout-light/style.css">
 </head>
 <body>
-    @*Header*@
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo mr-5" href="@Url.Action("Index","Login")"><img src="~/Template/images/logo.svg" class="mr-2" alt="logo" /></a>
-            <a class="navbar-brand brand-logo-mini" href="@Url.Action("Index","Login")"><img src="~/Template/images/logo-mini.svg" alt="logo" /></a>
+    <div class="container-scroller">
+        @*Header*@
+        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                <a class="navbar-brand brand-logo mr-5" href="@Url.Action("Index","Login")"><img src="~/Template/images/logo.svg" class="mr-2" alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" href="@Url.Action("Index","Login")"><img src="~/Template/images/logo-mini.svg" alt="logo" /></a>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                    <span class="icon-menu"></span>
+                </button>
+            </div>
+        </nav>
+        <div class="container-fluid page-body-wrapper">
+            <div class="main-panel" style="width:100%">
+                @RenderBody()
+                <footer class="footer">
+                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © @DateTime.Now.Year.  Derechos Reservados.</span>
+                    </div>
+                </footer>
+            </div>
         </div>
-        <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-            <ul class="navbar-nav navbar-nav-right">
-            </ul>
-            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-                <span class="icon-menu"></span>
-            </button>
-        </div>
-    </nav>
-    <div class="row d-flex flex-column">
-     @RenderBody()
     </div>
-    <footer class="footer">
-        <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © @DateTime.Now.Year.  Derechos Reservados.</span>
-        </div>
-    </footer>
-
-    <script src="~/Template/vendors/js/vendor.bundle.base.js"></script>
-    <script src="~/Template/vendors/chart.js/Chart.min.js"></script>
-    <script src="~/Template/vendors/datatables.net/jquery.dataTables.js"></script>
-    <script src="~/Template/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-    <script src="~/Template/js/dataTables.select.min.js"></script>
-    <script src="~/Template/js/off-canvas.js"></script>
-    <script src="~/Template/js/hoverable-collapse.js"></script>
-    <script src="~/Template/js/template.js"></script>
-    <script src="~/Template/js/settings.js"></script>
-    <script src="~/Template/js/todolist.js"></script>
-    <script src="~/Template/js/dashboard.js"></script>
-    <script src="~/Template/js/Chart.roundedBarCharts.js"></script>
+        <script src="~/Template/vendors/js/vendor.bundle.base.js"></script>
+        <script src="~/Template/vendors/chart.js/Chart.min.js"></script>
+        <script src="~/Template/vendors/datatables.net/jquery.dataTables.js"></script>
+        <script src="~/Template/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+        <script src="~/Template/js/dataTables.select.min.js"></script>
+        <script src="~/Template/js/off-canvas.js"></script>
+        <script src="~/Template/js/hoverable-collapse.js"></script>
+        <script src="~/Template/js/template.js"></script>
+        <script src="~/Template/js/settings.js"></script>
+        <script src="~/Template/js/todolist.js"></script>
+        <script src="~/Template/js/dashboard.js"></script>
+        <script src="~/Template/js/Chart.roundedBarCharts.js"></script>
 </body>
 </html>
+
+
+
 
 
 
