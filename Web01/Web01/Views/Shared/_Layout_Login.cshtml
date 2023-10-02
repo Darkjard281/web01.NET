@@ -22,7 +22,6 @@
             <a class="navbar-brand brand-logo-mini" href="@Url.Action("Index","Login")"><img src="~/Template/images/logo-mini.svg" alt="logo" /></a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-
             <ul class="navbar-nav navbar-nav-right">
             </ul>
             <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
@@ -30,10 +29,8 @@
             </button>
         </div>
     </nav>
-    <div class="content-wrapper">
-        <div class="row">
-            @RenderBody()
-        </div>
+    <div class="row d-flex flex-column">
+     @RenderBody()
     </div>
     <footer class="footer">
         <div class="d-sm-flex justify-content-center justify-content-sm-between">
