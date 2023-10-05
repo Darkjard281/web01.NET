@@ -15,7 +15,7 @@
                     @using (Html.BeginForm("RecuperarCuenta", "Login", FormMethod.Post, new { @class = "pt-3" }))
                     {
                         <div class="form-group">
-                            @Html.TextBoxFor(m => m.Correo, new { @type = "email", @class = "form-control form-control-lg", @placeholder = "Correo Electronico" })
+                            @Html.TextBoxFor(m => m.Identificacion, new { @type = "text", @class = "form-control form-control-lg", @placeholder = "Identificacion" })
                         </div>
                         <div class="mt-3">
                             <input type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" value="Recuperar Cuenta" />
