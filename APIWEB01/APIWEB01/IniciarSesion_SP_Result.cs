@@ -10,9 +10,8 @@
 namespace APIWEB01
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class TUsuarios
+    public partial class IniciarSesion_SP_Result
     {
         public long ConUsuario { get; set; }
         public string Identificacion { get; set; }

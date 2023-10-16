@@ -18,17 +18,25 @@ namespace Web01.Controllers
             return View();
         }
 
-        [HttpGet]
+        [HttpGet]//Obtener la vista
         public ActionResult Login()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost]//Obtener lo que se recibe por medio de la vista -- Ejecutar Acciones Solo existe en web estas 2(GET Y POST)
         public ActionResult Login(UsuarioEnt entidad)
         {
-            usuarioModelo.Login(entidad);
-            return View();
+            var resp = usuarioModelo.Login(entidad);
+            if (resp != null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else {
+                ViewBag.MensajeUsuario = "Credenciales invalidos"; 
+                return View();
+            }
+            
         }
 
         [HttpGet]
@@ -39,8 +47,17 @@ namespace Web01.Controllers
         [HttpPost]
         public ActionResult RegistrarCuenta(UsuarioEnt entidad)
         {
-            usuarioModelo.RegistrarCuenta(entidad);
-            return View();
+            entidad.Direccion = string.Empty;
+            entidad.Estado = true;
+            var resp = usuarioModelo.RegistrarCuenta(entidad);
+            if (resp == "OK") {
+                return RedirectToAction("Index", "Login");
+            } else {
+                ViewBag.MensajeUsuario = "No se ha registrado su informacion";
+                return View();
+            }
+            
+            
         }
 
         [HttpGet]
@@ -52,8 +69,16 @@ namespace Web01.Controllers
         [HttpPost]
         public ActionResult RecuperarCuenta(UsuarioEnt entidad)
         {
-            usuarioModelo.RecuperarCuenta(entidad);
-            return View();
+            var resp = usuarioModelo.RecuperarCuenta(entidad);
+            if (resp == "OK")
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                ViewBag.MensajeUsuario = "No se ha enviado el correo con su contraseña";
+                return View();
+            }
         }
 
     }

@@ -17,10 +17,16 @@
                 <div class="brand-logo">
                     <img src="~/Template/images/logo.svg" alt="logo">
                 </div>
-                    @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class = "pt-3" }))
-                    { 
+                @if (ViewBag.MensajeUsuario != null)
+                {
+                    <div class="alert alert-secondary" role="alert" style="text-align:center">
+                        @ViewBag.MensajeUsuario
+                    </div>
+                }
+                @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class = "pt-3" }))
+                {
                     <div class="form-group">
-                        @Html.TextBoxFor(m => m.Correo, new { @type = "email", @class = "form-control form-control-lg", @placeholder = "Identificacion" }) <!--RAZOR-->
+                        @Html.TextBoxFor(m => m.Correo, new { @type = "email", @class = "form-control form-control-lg", @placeholder = "Correo" }) <!--RAZOR-->
                     </div>
                     <div class="form-group">
                         @Html.TextBoxFor(m => m.Contrasena, new { @type = "password", @class = "form-control form-control-lg", @placeholder = "Contraseña" })
@@ -33,7 +39,7 @@
                         <br />
                         Olvidaste tu contraseña? <a href=@Url.Action("RecuperarCuenta","Login") class="text-primary">Recuperar</a>
                     </div>
-                    }
+                }
             </div>
         </div>
     </div>

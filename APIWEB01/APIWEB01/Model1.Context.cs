@@ -12,11 +12,13 @@ namespace APIWEB01
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
-    public partial class ClasePrograAvanzadaEntities : DbContext
+    public partial class DBMN : DbContext
     {
-        public ClasePrograAvanzadaEntities()
-            : base("name=ClasePrograAvanzadaEntities")
+        public DBMN()
+            : base("name=DBMN")
         {
         }
     
@@ -26,5 +28,47 @@ namespace APIWEB01
         }
     
         public virtual DbSet<TUsuarios> TUsuarios { get; set; }
+    
+        public virtual ObjectResult<IniciarSesion_SP_Result> IniciarSesion_SP(string correo, string contrasena)
+        {
+            var correoParameter = correo != null ?
+                new ObjectParameter("Correo", correo) :
+                new ObjectParameter("Correo", typeof(string));
+    
+            var contrasenaParameter = contrasena != null ?
+                new ObjectParameter("Contrasena", contrasena) :
+                new ObjectParameter("Contrasena", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IniciarSesion_SP_Result>("IniciarSesion_SP", correoParameter, contrasenaParameter);
+        }
+    
+        public virtual int REGISTRARCUENTA_SP(string identificacion, string nombre, string correo, string contrasena, string direccion, Nullable<bool> estado)
+        {
+            var identificacionParameter = identificacion != null ?
+                new ObjectParameter("Identificacion", identificacion) :
+                new ObjectParameter("Identificacion", typeof(string));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var correoParameter = correo != null ?
+                new ObjectParameter("Correo", correo) :
+                new ObjectParameter("Correo", typeof(string));
+    
+            var contrasenaParameter = contrasena != null ?
+                new ObjectParameter("Contrasena", contrasena) :
+                new ObjectParameter("Contrasena", typeof(string));
+    
+            var direccionParameter = direccion != null ?
+                new ObjectParameter("Direccion", direccion) :
+                new ObjectParameter("Direccion", typeof(string));
+    
+            var estadoParameter = estado.HasValue ?
+                new ObjectParameter("Estado", estado) :
+                new ObjectParameter("Estado", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("REGISTRARCUENTA_SP", identificacionParameter, nombreParameter, correoParameter, contrasenaParameter, direccionParameter, estadoParameter);
+        }
     }
 }
