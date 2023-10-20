@@ -13,6 +13,8 @@ namespace APIWEB01.Controllers
     public class LoginController : ApiController
     {
 
+        Utilitario util = new Utilitario();
+
         [HttpPost]// Se recibe el objeto ya que s   i pasamos por parametro mediante el metodo get queda expuesta la informacion
         [Route("Login")]//Parametro obligatorio para darle un alias al metodo
         public IniciarSesion_SP_Result Login(UsuarioEnt entidad) //objeto / alias
@@ -91,9 +93,11 @@ namespace APIWEB01.Controllers
 
                     if (datos != null)
                     {
-                        string urlHtml = @"C:\Users\jarod\OneDrive\Escritorio\3Q-2023-Fide\PrograAvanzada-Miercoles\Email.html";
+                        string urlHtml = AppDomain.CurrentDomain.BaseDirectory + "Templates\\Email.html";
                         string html = File.ReadAllText(urlHtml);
-                        EnvioCorreos(datos.Correo, "Recuperar Contraseña", html);
+                        html = html.Replace("@@Nombre", datos.Nombre);
+                        html = html.Replace("@@Contrasena", datos.Contrasena);
+                        util.EnvioCorreos(datos.Correo, "Recuperar Contraseña", html);
                     }
                         
                 }
@@ -108,25 +112,7 @@ namespace APIWEB01.Controllers
         }
 
 
-        private void EnvioCorreos(string destino, string asunto, string contenido)
-        {
-            MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("testing000281@gmail.com");
-            mailMessage.To.Add(new MailAddress(destino));
-            mailMessage.Subject = asunto;
-            mailMessage.Body = contenido;
-            mailMessage.IsBodyHtml = true;
-
-            SmtpClient smtpClient = new SmtpClient();// Servidor de correo
-            smtpClient.Port = 587;
-            smtpClient.Host = "smtp.gmail.com";
-            smtpClient.EnableSsl = true;
-            smtpClient.UseDefaultCredentials = false;
-            smtpClient.Credentials = new NetworkCredential("testing000281@gmail.com", "ojoz oxbt ixzv olra");
-            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtpClient.Send(mailMessage);
-
-        }
+       
 
     }
 }

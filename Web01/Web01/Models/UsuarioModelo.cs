@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -13,9 +14,11 @@ namespace Web01.Models
 {
     public class UsuarioModelo
     {
-
+        string UrlApi = ConfigurationManager.AppSettings["UrlApi"];
         public UsuarioEnt Login(UsuarioEnt entidad)
         {
+
+            
             using (var client = new HttpClient()) {//HttpClient sirve para hacer llamadas al protocolo HTTP
                 /*
                 string url = "https://localhost:44303/Login";
@@ -24,7 +27,7 @@ namespace Web01.Models
                 var result = client.PostAsync(url, payload).Result;
                 return result.Content.ReadFromJsonAsync<UsuarioEnt>().Result;
                 */
-                string url = "https://localhost:44303/Login";
+                string url = UrlApi+"Login";
                 JsonContent contenido = JsonContent.Create(entidad);
                 var resp = client.PostAsync(url,contenido).Result; 
                 return resp.Content.ReadFromJsonAsync<UsuarioEnt>().Result;
@@ -41,7 +44,7 @@ namespace Web01.Models
             using (var client = new HttpClient())
             {
 
-                string url = "https://localhost:44303/RegistrarCuenta";
+                string url = UrlApi+"RegistrarCuenta";
                 JsonContent contenido = JsonContent.Create(entidad);//Conversion del obkjeto en JSON
                 var resp = client.PostAsync(url, contenido).Result; //Recibir por parte de la API el la respuesta
                 return resp.Content.ReadFromJsonAsync<string>().Result;
@@ -53,7 +56,7 @@ namespace Web01.Models
             using (var client = new HttpClient())
             {
 
-                string url = "https://localhost:44303/RecuperarCuenta";
+                string url = UrlApi+"RecuperarCuenta";
                 JsonContent contenido = JsonContent.Create(entidad);//Conversion del obkjeto en JSON
                 var resp = client.PostAsync(url, contenido).Result; //Recibir por parte de la API el la respuesta
                 return resp.Content.ReadFromJsonAsync<string>().Result;

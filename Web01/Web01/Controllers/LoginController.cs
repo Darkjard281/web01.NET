@@ -30,7 +30,8 @@ namespace Web01.Controllers
             var resp = usuarioModelo.Login(entidad);
             if (resp != null)
             {
-                return RedirectToAction("Index", "Login");
+                Session["NombreUsuario"] = resp.Nombre;//Variable de sesion (Cuando queramos y donde queramos) --> del servidor y Cookies(Del navegador) 
+                return RedirectToAction("Index", "Login");//vista + controlador
             }
             else {
                 ViewBag.MensajeUsuario = "Credenciales invalidos"; 
@@ -53,7 +54,7 @@ namespace Web01.Controllers
             if (resp == "OK") {
                 return RedirectToAction("Index", "Login");
             } else {
-                ViewBag.MensajeUsuario = "No se ha registrado su informacion";
+                ViewBag.MensajeUsuario = "No se ha registrado su informacion";//Variable dinamica
                 return View();
             }
             
@@ -79,6 +80,13 @@ namespace Web01.Controllers
                 ViewBag.MensajeUsuario = "No se ha enviado el correo con su contraseña";
                 return View();
             }
+        }
+
+        [HttpGet]//No se pasa nada por parametros
+        public ActionResult CerrarSesion(){
+            Session.Clear();// Se vacia variable de sesion
+            return RedirectToAction("Login", "Login");
+
         }
 
     }
