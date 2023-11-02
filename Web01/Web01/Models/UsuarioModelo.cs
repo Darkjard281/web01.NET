@@ -63,5 +63,19 @@ namespace Web01.Models
             }
 
         }
+
+
+        public List<SelectListItem> ConsultarProvincias()
+        {
+            using (var client = new HttpClient())
+            {
+
+                string url = UrlApi + "ConsultarProvincias";
+                var resp = client.GetAsync(url).Result; //Recibir por parte de la API el la respuesta
+                return resp.Content.ReadFromJsonAsync<List<SelectListItem>>().Result;
+            }
+
+        }
+
     }
 }

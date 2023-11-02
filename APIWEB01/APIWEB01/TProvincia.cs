@@ -12,18 +12,18 @@ namespace APIWEB01
     using System;
     using System.Collections.Generic;
     
-    public partial class TUsuarios
+    public partial class TProvincia
     {
-        public long ConUsuario { get; set; }
-        public string Identificacion { get; set; }
-        public string Nombre { get; set; }
-        public string Correo { get; set; }
-        public string Contrasena { get; set; }
-        public bool Estado { get; set; }
-        public long ConRol { get; set; }
-        public long ConProvincia { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TProvincia()
+        {
+            this.TUsuarios = new HashSet<TUsuarios>();
+        }
     
-        public virtual TProvincia TProvincia { get; set; }
-        public virtual TRol TRol { get; set; }
+        public long ConProvincia { get; set; }
+        public string Descripcion { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TUsuarios> TUsuarios { get; set; }
     }
 }

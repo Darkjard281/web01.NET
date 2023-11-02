@@ -4,7 +4,21 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ClasePrograAvanzadaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ClasePrograAvanzadaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TProvincia">
+          <Key>
+            <PropertyRef Name="ConProvincia" />
+          </Key>
+          <Property Name="ConProvincia" Type="bigint" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TRol">
+          <Key>
+            <PropertyRef Name="ConRol" />
+          </Key>
+          <Property Name="ConRol" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
         <EntityType Name="TUsuarios">
           <Key>
             <PropertyRef Name="ConUsuario" />
@@ -14,9 +28,34 @@
           <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Correo" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Contrasena" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="Direccion" Type="varchar" MaxLength="500" Nullable="false" />
           <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="ConRol" Type="bigint" Nullable="false" />
+          <Property Name="ConProvincia" Type="bigint" Nullable="false" />
         </EntityType>
+        <Association Name="FK_TUsuarios_TProvincia">
+          <End Role="TProvincia" Type="Self.TProvincia" Multiplicity="1" />
+          <End Role="TUsuarios" Type="Self.TUsuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TProvincia">
+              <PropertyRef Name="ConProvincia" />
+            </Principal>
+            <Dependent Role="TUsuarios">
+              <PropertyRef Name="ConProvincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TUsuarios_TRol1">
+          <End Role="TRol" Type="Self.TRol" Multiplicity="1" />
+          <End Role="TUsuarios" Type="Self.TUsuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRol">
+              <PropertyRef Name="ConRol" />
+            </Principal>
+            <Dependent Role="TUsuarios">
+              <PropertyRef Name="ConRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="IniciarSesion_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Correo" Type="varchar" Mode="In" />
           <Parameter Name="Contrasena" Type="varchar" Mode="In" />
@@ -26,16 +65,41 @@
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
           <Parameter Name="Correo" Type="varchar" Mode="In" />
           <Parameter Name="Contrasena" Type="varchar" Mode="In" />
-          <Parameter Name="Direccion" Type="varchar" Mode="In" />
-          <Parameter Name="Estado" Type="bit" Mode="In" />
         </Function>
         <EntityContainer Name="ClasePrograAvanzadaModelStoreContainer">
+          <EntitySet Name="TProvincia" EntityType="Self.TProvincia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TRol" EntityType="Self.TRol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TUsuarios" EntityType="Self.TUsuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TUsuarios_TProvincia" Association="Self.FK_TUsuarios_TProvincia">
+            <End Role="TProvincia" EntitySet="TProvincia" />
+            <End Role="TUsuarios" EntitySet="TUsuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TUsuarios_TRol1" Association="Self.FK_TUsuarios_TRol1">
+            <End Role="TRol" EntitySet="TRol" />
+            <End Role="TUsuarios" EntitySet="TUsuarios" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ClasePrograAvanzadaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TProvincia">
+          <Key>
+            <PropertyRef Name="ConProvincia" />
+          </Key>
+          <Property Name="ConProvincia" Type="Int64" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TUsuarios" Relationship="Self.FK_TUsuarios_TProvincia" FromRole="TProvincia" ToRole="TUsuarios" />
+        </EntityType>
+        <EntityType Name="TRol">
+          <Key>
+            <PropertyRef Name="ConRol" />
+          </Key>
+          <Property Name="ConRol" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TUsuarios" Relationship="Self.FK_TUsuarios_TRol1" FromRole="TRol" ToRole="TUsuarios" />
+        </EntityType>
         <EntityType Name="TUsuarios">
           <Key>
             <PropertyRef Name="ConUsuario" />
@@ -45,11 +109,48 @@
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Contrasena" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Direccion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="ConRol" Type="Int64" Nullable="false" />
+          <Property Name="ConProvincia" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="TProvincia" Relationship="Self.FK_TUsuarios_TProvincia" FromRole="TUsuarios" ToRole="TProvincia" />
+          <NavigationProperty Name="TRol" Relationship="Self.FK_TUsuarios_TRol1" FromRole="TUsuarios" ToRole="TRol" />
         </EntityType>
+        <Association Name="FK_TUsuarios_TProvincia">
+          <End Role="TProvincia" Type="Self.TProvincia" Multiplicity="1" />
+          <End Role="TUsuarios" Type="Self.TUsuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TProvincia">
+              <PropertyRef Name="ConProvincia" />
+            </Principal>
+            <Dependent Role="TUsuarios">
+              <PropertyRef Name="ConProvincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TUsuarios_TRol1">
+          <End Role="TRol" Type="Self.TRol" Multiplicity="1" />
+          <End Role="TUsuarios" Type="Self.TUsuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRol">
+              <PropertyRef Name="ConRol" />
+            </Principal>
+            <Dependent Role="TUsuarios">
+              <PropertyRef Name="ConRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="DBMN" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TProvincia" EntityType="Self.TProvincia" />
+          <EntitySet Name="TRol" EntityType="Self.TRol" />
           <EntitySet Name="TUsuarios" EntityType="Self.TUsuarios" />
+          <AssociationSet Name="FK_TUsuarios_TProvincia" Association="Self.FK_TUsuarios_TProvincia">
+            <End Role="TProvincia" EntitySet="TProvincia" />
+            <End Role="TUsuarios" EntitySet="TUsuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TUsuarios_TRol1" Association="Self.FK_TUsuarios_TRol1">
+            <End Role="TRol" EntitySet="TRol" />
+            <End Role="TUsuarios" EntitySet="TUsuarios" />
+          </AssociationSet>
           <FunctionImport Name="IniciarSesion_SP" ReturnType="Collection(ClasePrograAvanzadaModel.IniciarSesion_SP_Result)">
             <Parameter Name="Correo" Mode="In" Type="String" />
             <Parameter Name="Contrasena" Mode="In" Type="String" />
@@ -59,8 +160,6 @@
             <Parameter Name="Nombre" Mode="In" Type="String" />
             <Parameter Name="Correo" Mode="In" Type="String" />
             <Parameter Name="Contrasena" Mode="In" Type="String" />
-            <Parameter Name="Direccion" Mode="In" Type="String" />
-            <Parameter Name="Estado" Mode="In" Type="Boolean" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="IniciarSesion_SP_Result">
@@ -69,8 +168,9 @@
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="Correo" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="Contrasena" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="Direccion" Nullable="false" MaxLength="500" />
           <Property Type="Boolean" Name="Estado" Nullable="false" />
+          <Property Type="String" Name="ProvinciaDescripcion" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="RolDescripcion" Nullable="false" MaxLength="100" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -78,6 +178,22 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ClasePrograAvanzadaModelStoreContainer" CdmEntityContainer="DBMN">
+          <EntitySetMapping Name="TProvincia">
+            <EntityTypeMapping TypeName="ClasePrograAvanzadaModel.TProvincia">
+              <MappingFragment StoreEntitySet="TProvincia">
+                <ScalarProperty Name="ConProvincia" ColumnName="ConProvincia" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TRol">
+            <EntityTypeMapping TypeName="ClasePrograAvanzadaModel.TRol">
+              <MappingFragment StoreEntitySet="TRol">
+                <ScalarProperty Name="ConRol" ColumnName="ConRol" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TUsuarios">
             <EntityTypeMapping TypeName="ClasePrograAvanzadaModel.TUsuarios">
               <MappingFragment StoreEntitySet="TUsuarios">
@@ -86,8 +202,9 @@
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Correo" ColumnName="Correo" />
                 <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
-                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="ConRol" ColumnName="ConRol" />
+                <ScalarProperty Name="ConProvincia" ColumnName="ConProvincia" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -99,8 +216,9 @@
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Correo" ColumnName="Correo" />
                 <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
-                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="ProvinciaDescripcion" ColumnName="ProvinciaDescripcion" />
+                <ScalarProperty Name="RolDescripcion" ColumnName="RolDescripcion" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

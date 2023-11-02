@@ -68,7 +68,7 @@ namespace APIWEB01.Controllers
                     context.SaveChanges();//Confirmar el usuario y guardarlo
                     */
 
-                    context.REGISTRARCUENTA_SP(entidad.Identificacion, entidad.Nombre, entidad.Correo, entidad.Contrasena, entidad.Direccion, entidad.Estado); //Con SP(Procedimiento Almacenamiento)
+                    context.REGISTRARCUENTA_SP(entidad.Identificacion,entidad.Nombre,entidad.Correo,entidad.Contrasena); //Con SP(Procedimiento Almacenamiento)
                     return "OK";
                 }                                                     
 
@@ -112,7 +112,32 @@ namespace APIWEB01.Controllers
         }
 
 
-       
+        [HttpGet]
+        [Route("ConsultarProvincias")]
+        public List<System.Web.Mvc.SelectListItem> ConsultarProvincias() {
+            
+                using (var context = new DBMN())
+                {
+                    var datos =(from x in context.TProvincia
+                            select x).ToList();
+
+                    var respuesta = new List<System.Web.Mvc.SelectListItem>();
+                    foreach (var item in datos) {
+
+                    respuesta.Add(new System.Web.Mvc.SelectListItem { Value = item.ConProvincia.ToString(), Text = item.Descripcion });
+                    
+                }
+
+                    return respuesta;
+
+
+                }
+            }
+            
+
+
+
+
 
     }
 }

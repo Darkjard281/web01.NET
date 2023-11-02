@@ -50,8 +50,8 @@
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                             @if (Session["NombreUsuario"] != null)
                             {
-                                <a class="dropdown-item">
-                                    <i class="ti-settings text-primary"></i>
+                                <a class="dropdown-item" href="@Url.Action("PerfilUsuario","Usuario")">
+                                    <i class="ti-settings text-primary" ></i>
                                     Perfil
                                 </a>
                                 <a class="dropdown-item" href="@Url.Action("CerrarSesion","Login")">
@@ -105,9 +105,7 @@
             <div class="main-panel">
                 @*Men Principal*@
                 <div class="content-wrapper">
-                    <div class="row">
-                        @RenderBody()
-                    </div>
+                    @RenderBody()
                 </div>
                 <footer class="footer">
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">

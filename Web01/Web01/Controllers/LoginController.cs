@@ -48,8 +48,7 @@ namespace Web01.Controllers
         [HttpPost]
         public ActionResult RegistrarCuenta(UsuarioEnt entidad)
         {
-            entidad.Direccion = string.Empty;
-            entidad.Estado = true;
+
             var resp = usuarioModelo.RegistrarCuenta(entidad);
             if (resp == "OK") {
                 return RedirectToAction("Index", "Login");

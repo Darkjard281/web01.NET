@@ -255,3 +255,9 @@ C:\Users\jarod\OneDrive\Escritorio\3Q-2023-Fide\PrograAvanzada-Miercoles\web01.N
 C:\Users\jarod\OneDrive\Escritorio\3Q-2023-Fide\PrograAvanzada-Miercoles\web01.NET\Web01\Web01\bin\System.Text.Json.xml
 C:\Users\jarod\OneDrive\Escritorio\3Q-2023-Fide\PrograAvanzada-Miercoles\web01.NET\Web01\Web01\bin\System.Threading.Tasks.Extensions.xml
 C:\Users\jarod\OneDrive\Escritorio\3Q-2023-Fide\PrograAvanzada-Miercoles\web01.NET\Web01\Web01\bin\System.ValueTuple.xml
+C:\Users\jarod\OneDrive\Escritorio\3Q-2023-Fide\PrograAvanzada-Miercoles\web01.NET\Web01\Web01\bin\System.Net.Http.Formatting.dll
+C:\Users\jarod\OneDrive\Escritorio\3Q-2023-Fide\PrograAvanzada-Miercoles\web01.NET\Web01\Web01\bin\System.Web.Http.dll
+C:\Users\jarod\OneDrive\Escritorio\3Q-2023-Fide\PrograAvanzada-Miercoles\web01.NET\Web01\Web01\bin\System.Web.Http.WebHost.dll
+C:\Users\jarod\OneDrive\Escritorio\3Q-2023-Fide\PrograAvanzada-Miercoles\web01.NET\Web01\Web01\bin\System.Net.Http.Formatting.xml
+C:\Users\jarod\OneDrive\Escritorio\3Q-2023-Fide\PrograAvanzada-Miercoles\web01.NET\Web01\Web01\bin\System.Web.Http.xml
+C:\Users\jarod\OneDrive\Escritorio\3Q-2023-Fide\PrograAvanzada-Miercoles\web01.NET\Web01\Web01\bin\System.Web.Http.WebHost.xml

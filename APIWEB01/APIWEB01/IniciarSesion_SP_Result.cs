@@ -18,7 +18,8 @@ namespace APIWEB01
         public string Nombre { get; set; }
         public string Correo { get; set; }
         public string Contrasena { get; set; }
-        public string Direccion { get; set; }
         public bool Estado { get; set; }
+        public string ProvinciaDescripcion { get; set; }
+        public string RolDescripcion { get; set; }
     }
 }

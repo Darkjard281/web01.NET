@@ -27,6 +27,8 @@ namespace APIWEB01
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<TProvincia> TProvincia { get; set; }
+        public virtual DbSet<TRol> TRol { get; set; }
         public virtual DbSet<TUsuarios> TUsuarios { get; set; }
     
         public virtual ObjectResult<IniciarSesion_SP_Result> IniciarSesion_SP(string correo, string contrasena)
@@ -42,7 +44,7 @@ namespace APIWEB01
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IniciarSesion_SP_Result>("IniciarSesion_SP", correoParameter, contrasenaParameter);
         }
     
-        public virtual int REGISTRARCUENTA_SP(string identificacion, string nombre, string correo, string contrasena, string direccion, Nullable<bool> estado)
+        public virtual int REGISTRARCUENTA_SP(string identificacion, string nombre, string correo, string contrasena)
         {
             var identificacionParameter = identificacion != null ?
                 new ObjectParameter("Identificacion", identificacion) :
@@ -60,15 +62,7 @@ namespace APIWEB01
                 new ObjectParameter("Contrasena", contrasena) :
                 new ObjectParameter("Contrasena", typeof(string));
     
-            var direccionParameter = direccion != null ?
-                new ObjectParameter("Direccion", direccion) :
-                new ObjectParameter("Direccion", typeof(string));
-    
-            var estadoParameter = estado.HasValue ?
-                new ObjectParameter("Estado", estado) :
-                new ObjectParameter("Estado", typeof(bool));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("REGISTRARCUENTA_SP", identificacionParameter, nombreParameter, correoParameter, contrasenaParameter, direccionParameter, estadoParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("REGISTRARCUENTA_SP", identificacionParameter, nombreParameter, correoParameter, contrasenaParameter);
         }
     }
 }
