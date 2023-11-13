@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.IO;
 using System.Linq; // Tecnología desarrollada por Microsoft que permite realizar consultas y manipulación de datos directamente en lenguajes de programación como C# (C Sharp) y Visual Basic . NET
 using System.Net;
@@ -111,30 +112,38 @@ namespace APIWEB01.Controllers
 
         }
 
+        [HttpPut] //
+        [Route("ActaulizarCuenta")]
+        public string ActaulizarCuenta(UsuarioEnt entidad) //Se recibe un objeto de tipo Usuario
+        {
 
-        [HttpGet]
-        [Route("ConsultarProvincias")]
-        public List<System.Web.Mvc.SelectListItem> ConsultarProvincias() {
-            
+            try
+            {
                 using (var context = new DBMN())
                 {
-                    var datos =(from x in context.TProvincia
-                            select x).ToList();
+                    var datos = (from x in context.TUsuarios 
+                                 where x.ConUsuario == entidad.ConUsuario 
+                                 select x).FirstOrDefault();
 
-                    var respuesta = new List<System.Web.Mvc.SelectListItem>();
-                    foreach (var item in datos) {
+                    if (datos != null) //Update con entity frame work
+                    {
+                        datos.Correo = entidad.Correo;
+                        datos.Nombre = entidad.Nombre;
+                        datos.Identificacion = entidad.Identificacion;
+                        datos.ConProvincia = entidad.ConProvincia; 
+                        context.SaveChanges();
+                    }
 
-                    respuesta.Add(new System.Web.Mvc.SelectListItem { Value = item.ConProvincia.ToString(), Text = item.Descripcion });
-                    
+                    return "OK";
                 }
 
-                    return respuesta;
-
-
-                }
             }
-            
+            catch (Exception e)
+            {
+                return e.Message;
+            }
 
+        }
 
 
 

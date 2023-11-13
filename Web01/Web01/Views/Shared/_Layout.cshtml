@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="~/template/vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" href="~/template/js/select.dataTables.min.css">
     <link rel="stylesheet" href="~/template/css/vertical-layout-light/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <div class="container-scroller">
@@ -39,16 +40,16 @@
                 <ul class="navbar-nav navbar-nav-right">
                     
                     <li class="nav-item nav-profile dropdown">
-                        @if (Session["NombreUsuario"] != null)
+                        @if (Session["ConUsuario"] != null)
                         { //variableDeSession
-                            @Session["NombreUsuario"]
+                            @Session["Nombre"]
                         }
                         &nbsp;&nbsp;&nbsp;
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                             <img src="~/Template/images/faces/face28.jpg" alt="profile" />
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                            @if (Session["NombreUsuario"] != null)
+                            @if (Session["ConUsuario"] != null)
                             {
                                 <a class="dropdown-item" href="@Url.Action("PerfilUsuario","Usuario")">
                                     <i class="ti-settings text-primary" ></i>
@@ -86,21 +87,31 @@
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                            <i class="icon-layout menu-icon"></i>
-                            <span class="menu-title">UI Elements</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ui-basic">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item">  @Html.ActionLink("Contact", "Contact", "Login", new { @class = "nav-link" }) </li> @*Direccionamiento con los action y agregar el tipo de clase*@
-                                <li class="nav-item"> @Html.ActionLink("About", "About", "Login", new { @class = "nav-link" }) </li>
-                            </ul>
-                        </div>
-                    </li>
-                    
-                </ul>
+                    @if (Session["ConUsuario"] != null)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                                <i class="icon-layout menu-icon"></i>
+                                <span class="menu-title">UI Elements</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="ui-basic">
+                                <ul class="nav flex-column sub-menu">
+
+                                    <li class="nav-item"> 
+                                        <a class="nav-link" href="@Url.Action("ConsultarUsuarios","Usuario")">Usuarios</a> 
+                                    </li>
+                                    @*Direccionamiento con los action y agregar el tipo de clase*@
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="@Url.Action("ConsultarProductos","Producto")">Productos</a>
+                                    </li>
+                                    
+
+                                </ul>
+                            </div>
+                        </li>
+                    }
+                    </ul>
             </nav>
             <div class="main-panel">
                 @*Men Principal*@

@@ -18,7 +18,7 @@ namespace Web01.Controllers
             return View();
         }
 
-        [HttpGet]//Obtener la vista
+        [HttpGet]//Obtener la vista --> Ejecutado con hipervinculo
         public ActionResult Login()
         {
             return View();
@@ -30,7 +30,8 @@ namespace Web01.Controllers
             var resp = usuarioModelo.Login(entidad);
             if (resp != null)
             {
-                Session["NombreUsuario"] = resp.Nombre;//Variable de sesion (Cuando queramos y donde queramos) --> del servidor y Cookies(Del navegador) 
+                Session["Nombre"] = resp.Nombre;//Variable de sesion (Cuando queramos y donde queramos) --> del servidor y Cookies(Del navegador) 
+                Session["ConUsuario"] = resp.ConUsuario;
                 return RedirectToAction("Index", "Login");//vista + controlador
             }
             else {
@@ -45,6 +46,7 @@ namespace Web01.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult RegistrarCuenta(UsuarioEnt entidad)
         {
@@ -81,7 +83,7 @@ namespace Web01.Controllers
             }
         }
 
-        [HttpGet]//No se pasa nada por parametros
+        [HttpGet]//Se puede utilizar con o sin pantalla
         public ActionResult CerrarSesion(){
             Session.Clear();// Se vacia variable de sesion
             return RedirectToAction("Login", "Login");
@@ -89,4 +91,7 @@ namespace Web01.Controllers
         }
 
     }
+
+
+
 }

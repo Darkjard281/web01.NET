@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\jarod\OneDrive\Escritorio\3Q-2023-Fide\PrograAvanzada-Miercoles\web01.NET\APIWeb01\APIWEB01\Model1.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\jarod\OneDrive\Escritorio\3Q-2023-Fide\PrograAvanzada-Miercoles\web01.NET\APIWEB01\APIWEB01\Model1.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

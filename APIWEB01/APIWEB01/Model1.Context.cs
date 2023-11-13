@@ -27,6 +27,7 @@ namespace APIWEB01
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<TProducto> TProducto { get; set; }
         public virtual DbSet<TProvincia> TProvincia { get; set; }
         public virtual DbSet<TRol> TRol { get; set; }
         public virtual DbSet<TUsuarios> TUsuarios { get; set; }

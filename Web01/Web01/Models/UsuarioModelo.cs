@@ -14,6 +14,7 @@ namespace Web01.Models
 {
     public class UsuarioModelo
     {
+        //Back end --> .Net
         string UrlApi = ConfigurationManager.AppSettings["UrlApi"];
         public UsuarioEnt Login(UsuarioEnt entidad)
         {
@@ -32,8 +33,6 @@ namespace Web01.Models
                 var resp = client.PostAsync(url,contenido).Result; 
                 return resp.Content.ReadFromJsonAsync<UsuarioEnt>().Result;
                 
-
-
 
             }
                 
@@ -75,6 +74,55 @@ namespace Web01.Models
                 return resp.Content.ReadFromJsonAsync<List<SelectListItem>>().Result;
             }
 
+        }
+
+        public List<UsuarioEnt> ConsultarUsuarios()
+        {
+            using (var client = new HttpClient()) {
+
+
+                string url = UrlApi + "ConsultarUsuarios";
+                var resp = client.GetAsync(url).Result;
+                return resp.Content.ReadFromJsonAsync<List<UsuarioEnt>>().Result;
+            }
+
+        }
+
+        public UsuarioEnt ConsultaUsuario(long q)
+        {
+            using (var client = new HttpClient())
+            {
+
+
+                string url = UrlApi + "ConsultaUsuario?ConUsuario="+ q ;
+                var resp = client.GetAsync(url).Result;
+                return resp.Content.ReadFromJsonAsync<UsuarioEnt>().Result;
+            }
+
+        }
+
+        public string ActaulizarCuenta(UsuarioEnt entidad)
+        {
+            using (var client = new HttpClient())
+            {
+
+                string url = UrlApi + "ActaulizarCuenta";
+                JsonContent contenido = JsonContent.Create(entidad);//Conversion del obkjeto en JSON
+                var resp = client.PutAsync(url, contenido).Result; //Recibir por parte de la API el la respuesta
+                return resp.Content.ReadFromJsonAsync<string>().Result;
+            }
+        }
+
+        public string ActualizarEstadoUsuario(UsuarioEnt entidad)
+        {
+            using (var client = new HttpClient())
+            {
+
+                string url = UrlApi + "ActualizarEstadoUsuario";
+                JsonContent contenido = JsonContent.Create(entidad);//Conversion del obkjeto en JSON
+                var resp = client.PutAsync(url, contenido).Result; //Recibir por parte de la API el la respuesta
+                return resp.Content.ReadFromJsonAsync<string>().Result;
+            }
         }
 
     }

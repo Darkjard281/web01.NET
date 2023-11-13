@@ -1,6 +1,6 @@
 ﻿@model Web01.Entities.UsuarioEnt
 @{
-    ViewBag.Title = "PerfilUsuario";
+    ViewBag.Title = "Actualizar Usuario";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 
@@ -8,7 +8,7 @@
 
 <div class="card">
     <div class="card-body">
-        <h4 class="card-title">Informacion general</h4>
+        <h4 class="card-title">Informacion del usuario</h4>
         @if (ViewBag.Mensaje != null)
         {
             <div class="alert alert-secondary" role="alert" style="text-align:center">
@@ -16,7 +16,7 @@
             </div>
         }
 
-        @using (Html.BeginForm("PerfilUsuario", "Usuario", FormMethod.Post, new { @class = "pt-3" }))
+        @using (Html.BeginForm("ActualizarUsuario", "Usuario", FormMethod.Post, new { @class = "pt-3" }))
         {
 
             @Html.HiddenFor(m => m.ConUsuario)

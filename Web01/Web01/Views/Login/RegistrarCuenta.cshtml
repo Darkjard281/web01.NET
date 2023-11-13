@@ -23,10 +23,10 @@
             @using (Html.BeginForm("RegistrarCuenta", "Login", FormMethod.Post, new { @class = "pt-3" }))
             {
                 <div class="form-group">
-                    @Html.TextBoxFor(m => m.Identificacion, new { @type = "text", @class = "form-control form-control-lg", @placeholder = "Identificacion" })
+                    @Html.TextBoxFor(m => m.Identificacion, new {@onkeyup = "ConsultarNombre()", @type = "text", @class = "form-control form-control-lg", @placeholder = "Identificacion" })
                 </div>
                 <div class="form-group">
-                    @Html.TextBoxFor(m => m.Nombre, new { @type = "text", @class = "form-control form-control-lg", @placeholder = "Nombre" })
+                    @Html.TextBoxFor(m => m.Nombre, new { @type = "text", @style="background-color:#eeeeee", @readonly="readonly", @class = "form-control form-control-lg", @placeholder = "Nombre" })
                 </div>
                 <div class="form-group">
                     @Html.TextBoxFor(m => m.Correo, new { @type = "email", @class = "form-control form-control-lg", @placeholder = "Correo" })
@@ -45,5 +45,5 @@
     </div>
 </div>
 </div>
- 
 
+<script src="~/FuncionesJS/ConsultarNombreApi.js"></script>

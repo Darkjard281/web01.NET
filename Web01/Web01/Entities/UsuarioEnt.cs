@@ -14,6 +14,7 @@ namespace Web01.Entities
         public string Correo { get; set; }
         public string Contrasena { get; set; }
         public bool Estado { get; set; }
+        public long ConProvincia { get; set; }
         public string ProvinciaDescripcion { get; set; }
         public string RolDescripcion { get; set; }
 

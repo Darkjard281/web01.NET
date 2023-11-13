@@ -1,0 +1,59 @@
+﻿
+@model IEnumerable<Web01.Entities.ProductoEnt>
+<!--IEnumerable documentacion estandar-->
+
+
+@{
+    ViewBag.Title = "Consultar Productos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Informacion de los productos</h4>
+            @if (ViewBag.Mensaje != null)
+            {
+                <div class="alert alert-secondary" role="alert" style="text-align:center">
+                    @ViewBag.Mensaje
+                </div>
+            }
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripcion</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Estado</th>
+                        <th>Cambiar Estado</th>
+                        <th>Actualizar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)//Model == Modelo traido desde el controlador
+                    {
+                        <tr>
+                            <td>@item.Nombre</td>
+                            <td>@item.Descripcion</td>
+                            <td>@item.Precio</td>
+                            <td>@item.Cantidad</td>
+                            @if (item.Estado)
+                            {
+                                <td>Activo</td>
+                            }
+                            else
+                            {
+                                <td>Inactivo</td>
+                            }
+
+                            <td style="text-align:center">none</td>
+                            <td style="text-align:center">none</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

@@ -5,6 +5,17 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="ClasePrograAvanzadaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TProducto">
+          <Key>
+            <PropertyRef Name="ConProducto" />
+          </Key>
+          <Property Name="ConProducto" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Precio" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="TProvincia">
           <Key>
             <PropertyRef Name="ConProvincia" />
@@ -67,6 +78,7 @@
           <Parameter Name="Contrasena" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="ClasePrograAvanzadaModelStoreContainer">
+          <EntitySet Name="TProducto" EntityType="Self.TProducto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TProvincia" EntityType="Self.TProvincia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TRol" EntityType="Self.TRol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TUsuarios" EntityType="Self.TUsuarios" Schema="dbo" store:Type="Tables" />
@@ -84,6 +96,17 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ClasePrograAvanzadaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TProducto">
+          <Key>
+            <PropertyRef Name="ConProducto" />
+          </Key>
+          <Property Name="ConProducto" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+        </EntityType>
         <EntityType Name="TProvincia">
           <Key>
             <PropertyRef Name="ConProvincia" />
@@ -140,6 +163,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="DBMN" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TProducto" EntityType="Self.TProducto" />
           <EntitySet Name="TProvincia" EntityType="Self.TProvincia" />
           <EntitySet Name="TRol" EntityType="Self.TRol" />
           <EntitySet Name="TUsuarios" EntityType="Self.TUsuarios" />
@@ -178,6 +202,18 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ClasePrograAvanzadaModelStoreContainer" CdmEntityContainer="DBMN">
+          <EntitySetMapping Name="TProducto">
+            <EntityTypeMapping TypeName="ClasePrograAvanzadaModel.TProducto">
+              <MappingFragment StoreEntitySet="TProducto">
+                <ScalarProperty Name="ConProducto" ColumnName="ConProducto" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TProvincia">
             <EntityTypeMapping TypeName="ClasePrograAvanzadaModel.TProvincia">
               <MappingFragment StoreEntitySet="TProvincia">
