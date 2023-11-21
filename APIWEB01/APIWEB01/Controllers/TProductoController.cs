@@ -81,16 +81,39 @@ namespace APIWEB01.Controllers
         // POST: api/TProducto
         [HttpPost]
         [Route("RegistrarProducto")]
-        public string RegistrarProducto(TProducto tProducto)
+        public long RegistrarProducto(TProducto tProducto)
         {
 
             using (var context = new DBMN()) { 
             
                 context.TProducto.Add(tProducto);
                 context.SaveChanges();
-                return "OK";
+                return tProducto.ConProducto;//Retornsa el ID del producto creado
             }
                
+        }
+
+        [HttpPut]
+        [Route("ActualizarRutaImagen")]
+        public string ActualizarRutaImagen(TProducto tProducto)
+        {
+
+            using (var context = new DBMN())
+            {
+                var datos = context.TProducto.FirstOrDefault(x => x.ConProducto == tProducto.ConProducto);//Se puede hacer con esta funcion tambien
+
+
+                //var datos = (from x in context.TProducto
+                //             where x.ConProducto == tProducto.ConProducto
+                //             select x).FirstOrDefault();
+
+                if (datos != null) {
+                    datos.Imagen = tProducto.Imagen;
+                    context.SaveChanges();
+                }
+                return "OK";
+            }
+
         }
 
 

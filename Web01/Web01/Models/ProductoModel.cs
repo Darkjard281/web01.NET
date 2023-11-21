@@ -18,11 +18,31 @@ namespace Web01.Models
         {
             using (var client = new HttpClient())
             {
-
-
                 string url = UrlApi + "ConsultarProductos";
                 var resp = client.GetAsync(url).Result;
                 return resp.Content.ReadFromJsonAsync<List<ProductoEnt>>().Result;
+            }
+
+        }
+
+        public long RegistrarProducto(ProductoEnt productoEnt) {
+
+            using (var client = new HttpClient())
+            {
+                string url = UrlApi + "RegistrarProducto";
+                JsonContent contenido = JsonContent.Create(productoEnt);//Conversion del objeto en JSON
+                var resp = client.PostAsync(url, contenido).Result;
+                return resp.Content.ReadFromJsonAsync<long>().Result;
+            }
+        }
+
+        public string ActualizarRutaImagen(ProductoEnt productoEnt) {
+            using (var client = new HttpClient())
+            {
+                string url = UrlApi + "ActualizarRutaImagen";
+                JsonContent contenido = JsonContent.Create(productoEnt);
+                var resp = client.PutAsync(url, contenido).Result;
+                return resp.Content.ReadFromJsonAsync<string>().Result;
             }
 
         }

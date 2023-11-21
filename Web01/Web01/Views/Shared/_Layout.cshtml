@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="~/template/js/select.dataTables.min.css">
     <link rel="stylesheet" href="~/template/css/vertical-layout-light/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
 </head>
 <body>
     <div class="container-scroller">
@@ -24,7 +25,7 @@
                 <a class="navbar-brand brand-logo-mini" href="@Url.Action("Index","Login")"><img src="~/Template/images/logo-mini.svg" alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-                
+
                 <ul class="navbar-nav mr-lg-2">
                     <li class="nav-item nav-search d-none d-lg-block">
                         <div class="input-group">
@@ -38,7 +39,7 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav navbar-nav-right">
-                    
+
                     <li class="nav-item nav-profile dropdown">
                         @if (Session["ConUsuario"] != null)
                         { //variableDeSession
@@ -52,7 +53,7 @@
                             @if (Session["ConUsuario"] != null)
                             {
                                 <a class="dropdown-item" href="@Url.Action("PerfilUsuario","Usuario")">
-                                    <i class="ti-settings text-primary" ></i>
+                                    <i class="ti-settings text-primary"></i>
                                     Perfil
                                 </a>
                                 <a class="dropdown-item" href="@Url.Action("CerrarSesion","Login")">
@@ -60,76 +61,68 @@
                                     Cerrar Session
                                 </a>
                             }
-                            else { 
+                            else
+                            {
                                 <a class="dropdown-item" href="@Url.Action("Login","Login")">
                                     <i class="ti-home text-primary"></i>
                                     Iniciar Sesion
                                 </a>
                             }
-                            
+
 
                         </div>
                     </li>
-                    
+
                 </ul>
                 <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
                     <span class="icon-menu"></span>
                 </button>
             </div>
         </nav>
-        <div class="container-fluid page-body-wrapper">
+        <div  class="container-fluid page-body-wrapper">
             @*Menu Lateral*@
-            <nav class="sidebar sidebar-offcanvas" id="sidebar">
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">
-                            <i class="icon-grid menu-icon"></i>
-                            <span class="menu-title">Dashboard</span>
-                        </a>
-                    </li>
-                    @if (Session["ConUsuario"] != null)
-                    {
+
+            @if (Session["ConUsuario"] != null)
+            {
+                <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                    <ul class="nav">
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <i class="icon-layout menu-icon"></i>
-                                <span class="menu-title">UI Elements</span>
+                                <span class="menu-title">Mantenimientos</span>
                                 <i class="menu-arrow"></i>
                             </a>
                             <div class="collapse" id="ui-basic">
                                 <ul class="nav flex-column sub-menu">
-
-                                    <li class="nav-item"> 
-                                        <a class="nav-link" href="@Url.Action("ConsultarUsuarios","Usuario")">Usuarios</a> 
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="@Url.Action("ConsultarUsuarios","Usuario")">Usuarios</a>
                                     </li>
                                     @*Direccionamiento con los action y agregar el tipo de clase*@
                                     <li class="nav-item">
                                         <a class="nav-link" href="@Url.Action("ConsultarProductos","Producto")">Productos</a>
                                     </li>
-                                    
-
                                 </ul>
                             </div>
                         </li>
-                    }
+                        
                     </ul>
-            </nav>
-            <div class="main-panel">
-                @*Men Principal*@
-                <div class="content-wrapper">
-                    @RenderBody()
-                </div>
-                <footer class="footer">
-                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © @DateTime.Now.Year.  Derechos Reservados.</span>
+                </nav>
+            }
+                <div id="main-panel" class="main-panel">
+                    @*Men Principal*@
+                    <div class="content-wrapper">
+                        @RenderBody()
                     </div>
-                </footer>
+                    <footer class="footer">
+                        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © @DateTime.Now.Year.  Derechos Reservados.</span>
+                        </div>
+                    </footer>
+                </div>
             </div>
-        </div>
     </div>
     <script src="~/Template/vendors/js/vendor.bundle.base.js"></script>
     <script src="~/Template/vendors/chart.js/Chart.min.js"></script>
-    <script src="~/Template/vendors/datatables.net/jquery.dataTables.js"></script>
-    <script src="~/Template/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
     <script src="~/Template/js/dataTables.select.min.js"></script>
     <script src="~/Template/js/off-canvas.js"></script>
     <script src="~/Template/js/hoverable-collapse.js"></script>
@@ -138,6 +131,17 @@
     <script src="~/Template/js/todolist.js"></script>
     <script src="~/Template/js/dashboard.js"></script>
     <script src="~/Template/js/Chart.roundedBarCharts.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src=" https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            document.getElementById("main-panel").style.width = "100%"
+        });
+
+    </script>
+
 </body>
 </html>
 

@@ -12,10 +12,13 @@ namespace Web01.Controllers
     {
 
         UsuarioModelo usuarioModelo = new UsuarioModelo();
-        
+        ProductoModel productoModelo = new ProductoModel();
+
+
         public ActionResult Index()
         {
-            return View();
+            var datos = productoModelo.ConsultarProductos();
+            return View(datos);
         }
 
         [HttpGet]//Obtener la vista --> Ejecutado con hipervinculo

@@ -13,6 +13,7 @@ namespace Web01.Entities
         public decimal Precio { get; set; }
         public int Cantidad { get; set; }
         public bool Estado { get; set; }
+        public string Imagen { get; set; }
 
     }
 }
