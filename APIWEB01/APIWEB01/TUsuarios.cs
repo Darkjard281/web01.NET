@@ -14,6 +14,13 @@ namespace APIWEB01
     
     public partial class TUsuarios
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TUsuarios()
+        {
+            this.TCarrito = new HashSet<TCarrito>();
+            this.TMaestro = new HashSet<TMaestro>();
+        }
+    
         public long ConUsuario { get; set; }
         public string Identificacion { get; set; }
         public string Nombre { get; set; }
@@ -25,5 +32,9 @@ namespace APIWEB01
     
         public virtual TProvincia TProvincia { get; set; }
         public virtual TRol TRol { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TCarrito> TCarrito { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TMaestro> TMaestro { get; set; }
     }
 }

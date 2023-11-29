@@ -1,0 +1,79 @@
+﻿@model Web01.Entities.ProductoEnt
+    
+@{
+    ViewBag.Title = "Actualizar Producto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Actualizar usuario</h4>
+        @if (ViewBag.Mensaje != null)
+        {
+            <div class="alert alert-secondary" role="alert" style="text-align:center">
+                @ViewBag.Mensaje
+            </div>
+        }
+
+        @using (Html.BeginForm("ActualizarProducto", "Producto", FormMethod.Post, new { @class = "pt-3", @enctype = "multipart/form-data" }))
+        {
+
+            @Html.HiddenFor(m => m.ConProducto)
+            <div class="form-group">
+                <label for="Nombre">Nombre</label>
+                @Html.TextBoxFor(m => m.Nombre, new { @type = "text", @class = "form-control form-control-lg", @placeholder = "Nombre" })
+            </div>
+            <div class="form-group">
+                <label for="Descripcion">Descripcion</label>
+                @Html.TextBoxFor(m => m.Descripcion, new { @type = "text", @class = "form-control form-control-lg", @placeholder = "Descripcion" })
+            </div>
+            <div class="form-group">
+                <label for="Precio">Precio</label>
+                @Html.TextBoxFor(m => m.Precio, new { @type = "number", @class = "form-control form-control-lg", @placeholder = "Precio" })
+            </div>
+            <div class="form-group">
+                <label for="Cantidad">Cantidad</label>
+                @Html.TextBoxFor(m => m.Cantidad, new { @type = "number", @class = "form-control form-control-lg", @placeholder = "Cantidad" })
+            </div>
+            <div class="form-group row">
+                <div class="col-6">
+                    <label >Foto Antes:</label>
+                    <img id="ImagenAntes" class="rounded mx-auto d-block" style="width:150px; height:150px" src="@Model.Imagen">
+                </div>
+                <div class="col-6">
+                    <label >Foto Despues:</label>
+                    <img id="ImagenDespues" class="rounded mx-auto d-block" style="width:150px; height:150px" src="@Model.Imagen">
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="file" id="ImgProducto" name="ImgProducto" accept="image/*">
+            </div>
+            <button type="submit" class="btn btn-primary mr-2">Actualizar</button>
+        }
+    </div>
+</div>
+
+<script>
+    const $ImgProducto = document.querySelector("#ImgProducto"),
+        $ImagenDespues = document.querySelector("#ImagenDespues");
+
+      // Escuchar cuando cambie
+    $ImgProducto.addEventListener("change", () => {
+        // Los archivos seleccionados, pueden ser muchos o uno
+        const archivos = $ImgProducto.files;
+        // Si no hay archivos salimos de la función y quitamos la imagen
+        if (!archivos || !archivos.length) {
+            $ImagenDespues.src = "@Model.Imagen";
+            return;
+        }
+        // Ahora tomamos el primer archivo, el cual vamos a previsualizar
+        const primerArchivo = archivos[0];
+        // Lo convertimos a un objeto de tipo objectURL
+        const objectURL = URL.createObjectURL(primerArchivo);
+        // Y a la fuente de la imagen le ponemos el objectURL
+        $ImagenDespues.src = objectURL;
+    });
+
+</script>

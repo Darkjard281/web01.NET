@@ -5,12 +5,20 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="da343312dac4459b9b9daf892ac1aace" Name="Diagram1">
-        <EntityTypeShape EntityType="ClasePrograAvanzadaModel.TProducto" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClasePrograAvanzadaModel.TProducto" Width="1.5" PointX="3.125" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ClasePrograAvanzadaModel.TProvincia" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ClasePrograAvanzadaModel.TRol" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClasePrograAvanzadaModel.TRol" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ClasePrograAvanzadaModel.TUsuarios" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="ClasePrograAvanzadaModel.FK_TUsuarios_TProvincia" ManuallyRouted="false" />
         <AssociationConnector Association="ClasePrograAvanzadaModel.FK_TUsuarios_TRol1" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ClasePrograAvanzadaModel.TCarrito" Width="1.5" PointX="6.625" PointY="4.5" />
+        <EntityTypeShape EntityType="ClasePrograAvanzadaModel.TDetalle" Width="1.5" PointX="7.875" PointY="1.625" />
+        <EntityTypeShape EntityType="ClasePrograAvanzadaModel.TMaestro" Width="1.5" PointX="5.375" PointY="0.875" />
+        <AssociationConnector Association="ClasePrograAvanzadaModel.FK_TCarrito_TProducto" />
+        <AssociationConnector Association="ClasePrograAvanzadaModel.FK_TCarrito_TUsuarios" />
+        <AssociationConnector Association="ClasePrograAvanzadaModel.FK_TDetalle_TMaestro" />
+        <AssociationConnector Association="ClasePrograAvanzadaModel.FK_TDetalle_TProducto" />
+        <AssociationConnector Association="ClasePrograAvanzadaModel.FK_TMaestro_TUsuarios" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

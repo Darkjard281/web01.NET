@@ -47,5 +47,30 @@ namespace Web01.Models
 
         }
 
+        public ProductoEnt ConsultaProducto(long q)
+        {
+            using (var client = new HttpClient())
+            {
+
+
+                string url = UrlApi + "ConsultaProducto?ConProducto=" + q;
+                var resp = client.GetAsync(url).Result;
+                return resp.Content.ReadFromJsonAsync<ProductoEnt>().Result;
+            }
+
+        }
+
+
+        public string ActualizarProducto(ProductoEnt productoEnt) {
+
+            using (var client = new HttpClient()) {
+                string url = UrlApi + "ActualizarProducto";
+                JsonContent contenido = JsonContent.Create(productoEnt);
+                var resp = client.PutAsync(url, contenido).Result;
+                return resp.Content.ReadFromJsonAsync<string>().Result;
+            }
+                
+        }
+
     }
 }

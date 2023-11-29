@@ -31,6 +31,9 @@ namespace APIWEB01
         public virtual DbSet<TProvincia> TProvincia { get; set; }
         public virtual DbSet<TRol> TRol { get; set; }
         public virtual DbSet<TUsuarios> TUsuarios { get; set; }
+        public virtual DbSet<TCarrito> TCarrito { get; set; }
+        public virtual DbSet<TDetalle> TDetalle { get; set; }
+        public virtual DbSet<TMaestro> TMaestro { get; set; }
     
         public virtual ObjectResult<IniciarSesion_SP_Result> IniciarSesion_SP(string correo, string contrasena)
         {

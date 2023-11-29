@@ -16,8 +16,6 @@ namespace APIWEB01.Controllers
     {
 
 
-        // GET: api/TProducto
-
         [HttpGet]
         [Route("ConsultarProductos")]
         public List<TProducto> ConsultarProductos()
@@ -28,57 +26,37 @@ namespace APIWEB01.Controllers
             }
                 
         }
-        /*
-        // GET: api/TProducto/5
-        [ResponseType(typeof(TProducto))]
-        public IHttpActionResult GetTProducto(long id)
+
+
+        [HttpGet]
+        [Route("ConsultaProducto")]
+        public TProducto ConsultaProducto(long ConProducto)
         {
-            TProducto tProducto = db.TProducto.Find(id);
-            if (tProducto == null)
+            using (var context = new DBMN())
             {
-                return NotFound();
+                context.Configuration.LazyLoadingEnabled = false;
+                return context.TProducto.FirstOrDefault(x=>x.ConProducto== ConProducto);
             }
 
-            return Ok(tProducto);
         }
 
-        // PUT: api/TProducto/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutTProducto(long id, TProducto tProducto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        [HttpDelete]
+        [Route("EliminarProducto")]
+        public string EliminarProducto(long ConProducto) {
+            using (var context = new DBMN()) {
+                var entityToDelete = context.TProducto.SingleOrDefault(x => x.ConProducto== ConProducto);
 
-            if (id != tProducto.ConProducto)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(tProducto).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TProductoExists(id))
+                if (entityToDelete != null)
                 {
-                    return NotFound();
+                    context.TProducto.Remove(entityToDelete);
+                    context.SaveChanges();
                 }
-                else
-                {
-                    throw;
-                }
+                return "OK";
+
             }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }*/
+        }
 
 
-        // POST: api/TProducto
         [HttpPost]
         [Route("RegistrarProducto")]
         public long RegistrarProducto(TProducto tProducto)
@@ -116,37 +94,47 @@ namespace APIWEB01.Controllers
 
         }
 
+        [HttpPut]
+        [Route("ActualizarEstadoProducto")]
+        public string ActualizarEstadoProducto(TProducto tProducto) {
 
-        /*
-        // DELETE: api/TProducto/5
-        [ResponseType(typeof(TProducto))]
-        public IHttpActionResult DeleteTProducto(long id)
-        {
-            TProducto tProducto = db.TProducto.Find(id);
-            if (tProducto == null)
+            using (var context = new DBMN())
             {
-                return NotFound();
+                var datos = context.TProducto.Where(x => x.ConProducto == tProducto.ConProducto).FirstOrDefault();
+                datos.Estado = datos.Estado ? false : true;
+                context.SaveChanges();
+                return "OK";
             }
 
-            db.TProducto.Remove(tProducto);
-            db.SaveChanges();
-
-            return Ok(tProducto);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+        [HttpPut]
+        [Route("ActualizarProducto")]
+        public string ActualizarProducto(TProducto tProducto) {
+
+            using (var context = new DBMN())
             {
-                db.Dispose();
+
+                TProducto producto = context.TProducto.SingleOrDefault(x => x.ConProducto == tProducto.ConProducto);
+
+                if (tProducto != null)
+                {
+                    producto.Imagen = tProducto.Imagen;
+                }
+                
+                producto.Nombre = tProducto.Nombre;
+                producto.Descripcion = tProducto.Descripcion;
+                producto.Cantidad = tProducto.Cantidad;
+                producto.Precio = tProducto.Precio;
+                producto.Estado = tProducto.Estado;
+                
+                context.SaveChanges();
+                return "OK";
             }
-            base.Dispose(disposing);
+
+
         }
 
-        private bool TProductoExists(long id)
-        {
-            return db.TProducto.Count(e => e.ConProducto == id) > 0;
-        }
-        */
+
     }
 }
