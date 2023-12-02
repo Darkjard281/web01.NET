@@ -25,21 +25,17 @@
                 <a class="navbar-brand brand-logo-mini" href="@Url.Action("Index","Login")"><img src="~/Template/images/logo-mini.svg" alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+                <button class="navbar-toggler navbar-toggler align-self-center " type="button" data-toggle="minimize">
+                    <span class="icon-menu"></span>
+                </button>
+                
+                    @if (Session["ConUsuario"] != null) { 
+                        <div class="m-2"><i class="fa fa-tag"></i> @Session["Cantidad"].ToString()</div>
+                        <div class="m-2"><i class="fa fa-credit-card"></i>@decimal.Parse(Session["Subtotal"].ToString()).ToString("N2") + IVA</div>
+                        
+                    }
 
-                <ul class="navbar-nav mr-lg-2">
-                    <li class="nav-item nav-search d-none d-lg-block">
-                        <div class="input-group">
-                            <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
-                                <span class="input-group-text" id="search">
-                                    <i class="icon-search"></i>
-                                </span>
-                            </div>
-                            <input type="text" class="form-control" id="navbar-search-input" placeholder="Search now" aria-label="search" aria-describedby="search">
-                        </div>
-                    </li>
-                </ul>
                 <ul class="navbar-nav navbar-nav-right">
-
                     <li class="nav-item nav-profile dropdown">
                         @if (Session["ConUsuario"] != null)
                         { //variableDeSession
@@ -79,47 +75,62 @@
                 </button>
             </div>
         </nav>
-        <div  class="container-fluid page-body-wrapper">
+        <div class="container-fluid page-body-wrapper">
             @*Menu Lateral*@
 
             @if (Session["ConUsuario"] != null)
             {
+
+
                 <nav class="sidebar sidebar-offcanvas" id="sidebar">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                                <i class="icon-layout menu-icon"></i>
-                                <span class="menu-title">Mantenimientos</span>
-                                <i class="menu-arrow"></i>
-                            </a>
-                            <div class="collapse" id="ui-basic">
-                                <ul class="nav flex-column sub-menu">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("ConsultarUsuarios","Usuario")">Usuarios</a>
-                                    </li>
-                                    @*Direccionamiento con los action y agregar el tipo de clase*@
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("ConsultarProductos","Producto")">Productos</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
+
+                    
+                        <ul class="nav">
+                            @if (Session["Rol"].ToString() == "Administrador")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                                        <i class="icon-layout menu-icon"></i>
+                                        <span class="menu-title">Mantenimientos</span>
+                                        <i class="menu-arrow"></i>
+                                    </a>
+                                    <div class="collapse" id="ui-basic">
+                                        <ul class="nav flex-column sub-menu">
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="@Url.Action("ConsultarUsuarios","Usuario")">Usuarios</a>
+                                            </li>
+                                            @*Direccionamiento con los action y agregar el tipo de clase*@
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="@Url.Action("ConsultarProductos","Producto")">Productos</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            }
+                            <li class="nav-item mt-2">
+                                <a class="nav-link" href="@Url.Action("ConsultarCarrito","Carrito")">
+                                    <i class="icon-paper menu-icon"></i>
+                                    <span class="menu-title">Compras</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                   
                         
-                    </ul>
                 </nav>
             }
-                <div id="main-panel" class="main-panel">
-                    @*Men Principal*@
-                    <div class="content-wrapper">
-                        @RenderBody()
-                    </div>
-                    <footer class="footer">
-                        <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © @DateTime.Now.Year.  Derechos Reservados.</span>
-                        </div>
-                    </footer>
+            <div id="main-panel" class="main-panel">
+                @*Men Principal*@
+                <div class="content-wrapper">
+                    @RenderBody()
                 </div>
+                <footer class="footer">
+                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © @DateTime.Now.Year.  Derechos Reservados.</span>
+                    </div>
+                </footer>
             </div>
+        </div>
     </div>
     <script src="~/Template/vendors/js/vendor.bundle.base.js"></script>
     <script src="~/Template/vendors/chart.js/Chart.min.js"></script>

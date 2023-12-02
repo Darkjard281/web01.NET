@@ -1751,10 +1751,10 @@
     <Content Include="Views\Producto\ConsultarProductos.cshtml" />
     <Content Include="Views\Producto\RegistrarProducto.cshtml" />
     <Content Include="Views\Producto\ActualizarProducto.cshtml" />
+    <Content Include="Views\Carrito\ConsultarCarrito.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Carrito\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

@@ -30,11 +30,11 @@ namespace APIWEB01
         public long ConRol { get; set; }
         public long ConProvincia { get; set; }
     
-        public virtual TProvincia TProvincia { get; set; }
-        public virtual TRol TRol { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TCarrito> TCarrito { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TMaestro> TMaestro { get; set; }
+        public virtual TProvincia TProvincia { get; set; }
+        public virtual TRol TRol { get; set; }
     }
 }

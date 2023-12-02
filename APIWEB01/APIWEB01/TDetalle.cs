@@ -19,6 +19,7 @@ namespace APIWEB01
         public long ConProducto { get; set; }
         public int CantidadCompra { get; set; }
         public decimal PrecioCompra { get; set; }
+        public decimal Impuesto { get; set; }
     
         public virtual TMaestro TMaestro { get; set; }
         public virtual TProducto TProducto { get; set; }

@@ -117,7 +117,7 @@ namespace APIWEB01.Controllers
 
                 TProducto producto = context.TProducto.SingleOrDefault(x => x.ConProducto == tProducto.ConProducto);
 
-                if (tProducto != null)
+                if (tProducto.Imagen != null)
                 {
                     producto.Imagen = tProducto.Imagen;
                 }

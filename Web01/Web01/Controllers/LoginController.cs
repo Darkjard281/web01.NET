@@ -13,11 +13,11 @@ namespace Web01.Controllers
 
         UsuarioModelo usuarioModelo = new UsuarioModelo();
         ProductoModel productoModelo = new ProductoModel();
-
+        CarritoModel carritoModelo =  new CarritoModel();
 
         public ActionResult Index()
         {
-            var datos = productoModelo.ConsultarProductos();
+            var datos = productoModelo.ConsultarProductos().Where(x => x.Estado == true && x.Cantidad>0).ToList();
             return View(datos);
         }
 
@@ -35,6 +35,11 @@ namespace Web01.Controllers
             {
                 Session["Nombre"] = resp.Nombre;//Variable de sesion (Cuando queramos y donde queramos) --> del servidor y Cookies(Del navegador) 
                 Session["ConUsuario"] = resp.ConUsuario;
+                Session["Rol"] = resp.RolDescripcion;
+
+                var datos = carritoModelo.ConsultarCarrito().Where(x=>x.ConUsuario == resp.ConUsuario).ToList();
+                Session["Cantidad"] = datos.Sum(x=> x.Cantidad);
+                Session["Subtotal"] = datos.Sum(x => x.Precio);
                 return RedirectToAction("Index", "Login");//vista + controlador
             }
             else {
@@ -89,7 +94,7 @@ namespace Web01.Controllers
         [HttpGet]//Se puede utilizar con o sin pantalla
         public ActionResult CerrarSesion(){
             Session.Clear();// Se vacia variable de sesion
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction("Index", "Login");
 
         }
 

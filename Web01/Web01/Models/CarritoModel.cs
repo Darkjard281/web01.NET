@@ -29,5 +29,31 @@ namespace Web01.Models
             }
         }
 
+        public List<CarritoEnt> ConsultarCarrito()
+        {
+            using (var client = new HttpClient())
+            {
+                string url = UrlApi + "ConsultarCarrito";
+                var resp = client.GetAsync(url).Result;
+                return resp.Content.ReadFromJsonAsync<List<CarritoEnt>>().Result;
+            }
+
+        }
+
+        public string PagarCarrito(CarritoEnt entidad)
+        {
+
+            using (var client = new HttpClient())
+            {
+
+                string url = UrlApi + "PagarCarrito";
+                JsonContent contenido = JsonContent.Create(entidad);
+                var resp = client.PostAsync(url, contenido).Result;
+                return resp.Content.ReadFromJsonAsync<string>().Result;
+
+
+            }
+        }
+
     }
 }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ClasePrograAvanzadaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ClasePrograAvanzadaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="TCarrito">
           <Key>
             <PropertyRef Name="ConCarrito" />
@@ -24,6 +24,7 @@
           <Property Name="ConProducto" Type="bigint" Nullable="false" />
           <Property Name="CantidadCompra" Type="int" Nullable="false" />
           <Property Name="PrecioCompra" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Impuesto" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="TMaestro">
           <Key>
@@ -161,6 +162,9 @@
           <Parameter Name="Correo" Type="varchar" Mode="In" />
           <Parameter Name="Contrasena" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="PagarCarrito_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ConUsuario" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="REGISTRARCUENTA_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Identificacion" Type="varchar" Mode="In" />
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
@@ -204,10 +208,47 @@
             <End Role="TUsuarios" EntitySet="TUsuarios" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ClasePrograAvanzadaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TCarrito">
+          <Key>
+            <PropertyRef Name="ConCarrito" />
+          </Key>
+          <Property Name="ConCarrito" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConUsuario" Type="Int64" Nullable="false" />
+          <Property Name="ConProducto" Type="Int64" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="TProducto" Relationship="Self.FK_TCarrito_TProducto" FromRole="TCarrito" ToRole="TProducto" />
+          <NavigationProperty Name="TUsuarios" Relationship="Self.FK_TCarrito_TUsuarios" FromRole="TCarrito" ToRole="TUsuarios" />
+        </EntityType>
+        <EntityType Name="TDetalle">
+          <Key>
+            <PropertyRef Name="ConDetalle" />
+          </Key>
+          <Property Name="ConDetalle" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConMaestro" Type="Int64" Nullable="false" />
+          <Property Name="ConProducto" Type="Int64" Nullable="false" />
+          <Property Name="CantidadCompra" Type="Int32" Nullable="false" />
+          <Property Name="PrecioCompra" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Impuesto" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <NavigationProperty Name="TMaestro" Relationship="Self.FK_TDetalle_TMaestro" FromRole="TDetalle" ToRole="TMaestro" />
+          <NavigationProperty Name="TProducto" Relationship="Self.FK_TDetalle_TProducto" FromRole="TDetalle" ToRole="TProducto" />
+        </EntityType>
+        <EntityType Name="TMaestro">
+          <Key>
+            <PropertyRef Name="ConMaestro" />
+          </Key>
+          <Property Name="ConMaestro" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConUsuario" Type="Int64" Nullable="false" />
+          <Property Name="TotalFactura" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="FechaCompra" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="TDetalle" Relationship="Self.FK_TDetalle_TMaestro" FromRole="TMaestro" ToRole="TDetalle" />
+          <NavigationProperty Name="TUsuarios" Relationship="Self.FK_TMaestro_TUsuarios" FromRole="TMaestro" ToRole="TUsuarios" />
+        </EntityType>
         <EntityType Name="TProducto">
           <Key>
             <PropertyRef Name="ConProducto" />
@@ -219,8 +260,8 @@
           <Property Name="Cantidad" Type="Int32" Nullable="false" />
           <Property Name="Imagen" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="TCarrito" Relationship="ClasePrograAvanzadaModel.FK_TCarrito_TProducto" FromRole="TProducto" ToRole="TCarrito" />
-          <NavigationProperty Name="TDetalle" Relationship="ClasePrograAvanzadaModel.FK_TDetalle_TProducto" FromRole="TProducto" ToRole="TDetalle" />
+          <NavigationProperty Name="TCarrito" Relationship="Self.FK_TCarrito_TProducto" FromRole="TProducto" ToRole="TCarrito" />
+          <NavigationProperty Name="TDetalle" Relationship="Self.FK_TDetalle_TProducto" FromRole="TProducto" ToRole="TDetalle" />
         </EntityType>
         <EntityType Name="TProvincia">
           <Key>
@@ -250,11 +291,71 @@
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="ConRol" Type="Int64" Nullable="false" />
           <Property Name="ConProvincia" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="TCarrito" Relationship="Self.FK_TCarrito_TUsuarios" FromRole="TUsuarios" ToRole="TCarrito" />
+          <NavigationProperty Name="TMaestro" Relationship="Self.FK_TMaestro_TUsuarios" FromRole="TUsuarios" ToRole="TMaestro" />
           <NavigationProperty Name="TProvincia" Relationship="Self.FK_TUsuarios_TProvincia" FromRole="TUsuarios" ToRole="TProvincia" />
           <NavigationProperty Name="TRol" Relationship="Self.FK_TUsuarios_TRol1" FromRole="TUsuarios" ToRole="TRol" />
-          <NavigationProperty Name="TCarrito" Relationship="ClasePrograAvanzadaModel.FK_TCarrito_TUsuarios" FromRole="TUsuarios" ToRole="TCarrito" />
-          <NavigationProperty Name="TMaestro" Relationship="ClasePrograAvanzadaModel.FK_TMaestro_TUsuarios" FromRole="TUsuarios" ToRole="TMaestro" />
         </EntityType>
+        <Association Name="FK_TCarrito_TProducto">
+          <End Role="TProducto" Type="Self.TProducto" Multiplicity="1" />
+          <End Role="TCarrito" Type="Self.TCarrito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TProducto">
+              <PropertyRef Name="ConProducto" />
+            </Principal>
+            <Dependent Role="TCarrito">
+              <PropertyRef Name="ConProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TCarrito_TUsuarios">
+          <End Role="TUsuarios" Type="Self.TUsuarios" Multiplicity="1" />
+          <End Role="TCarrito" Type="Self.TCarrito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TUsuarios">
+              <PropertyRef Name="ConUsuario" />
+            </Principal>
+            <Dependent Role="TCarrito">
+              <PropertyRef Name="ConUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TDetalle_TMaestro">
+          <End Role="TMaestro" Type="Self.TMaestro" Multiplicity="1" />
+          <End Role="TDetalle" Type="Self.TDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TMaestro">
+              <PropertyRef Name="ConMaestro" />
+            </Principal>
+            <Dependent Role="TDetalle">
+              <PropertyRef Name="ConMaestro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TDetalle_TProducto">
+          <End Role="TProducto" Type="Self.TProducto" Multiplicity="1" />
+          <End Role="TDetalle" Type="Self.TDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TProducto">
+              <PropertyRef Name="ConProducto" />
+            </Principal>
+            <Dependent Role="TDetalle">
+              <PropertyRef Name="ConProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TMaestro_TUsuarios">
+          <End Role="TUsuarios" Type="Self.TUsuarios" Multiplicity="1" />
+          <End Role="TMaestro" Type="Self.TMaestro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TUsuarios">
+              <PropertyRef Name="ConUsuario" />
+            </Principal>
+            <Dependent Role="TMaestro">
+              <PropertyRef Name="ConUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TUsuarios_TProvincia">
           <End Role="TProvincia" Type="Self.TProvincia" Multiplicity="1" />
           <End Role="TUsuarios" Type="Self.TUsuarios" Multiplicity="*" />
@@ -280,10 +381,33 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="DBMN" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TCarrito" EntityType="Self.TCarrito" />
+          <EntitySet Name="TDetalle" EntityType="Self.TDetalle" />
+          <EntitySet Name="TMaestro" EntityType="Self.TMaestro" />
           <EntitySet Name="TProducto" EntityType="Self.TProducto" />
           <EntitySet Name="TProvincia" EntityType="Self.TProvincia" />
           <EntitySet Name="TRol" EntityType="Self.TRol" />
           <EntitySet Name="TUsuarios" EntityType="Self.TUsuarios" />
+          <AssociationSet Name="FK_TCarrito_TProducto" Association="Self.FK_TCarrito_TProducto">
+            <End Role="TProducto" EntitySet="TProducto" />
+            <End Role="TCarrito" EntitySet="TCarrito" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TCarrito_TUsuarios" Association="Self.FK_TCarrito_TUsuarios">
+            <End Role="TUsuarios" EntitySet="TUsuarios" />
+            <End Role="TCarrito" EntitySet="TCarrito" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TDetalle_TMaestro" Association="Self.FK_TDetalle_TMaestro">
+            <End Role="TMaestro" EntitySet="TMaestro" />
+            <End Role="TDetalle" EntitySet="TDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TDetalle_TProducto" Association="Self.FK_TDetalle_TProducto">
+            <End Role="TProducto" EntitySet="TProducto" />
+            <End Role="TDetalle" EntitySet="TDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TMaestro_TUsuarios" Association="Self.FK_TMaestro_TUsuarios">
+            <End Role="TUsuarios" EntitySet="TUsuarios" />
+            <End Role="TMaestro" EntitySet="TMaestro" />
+          </AssociationSet>
           <AssociationSet Name="FK_TUsuarios_TProvincia" Association="Self.FK_TUsuarios_TProvincia">
             <End Role="TProvincia" EntitySet="TProvincia" />
             <End Role="TUsuarios" EntitySet="TUsuarios" />
@@ -296,35 +420,15 @@
             <Parameter Name="Correo" Mode="In" Type="String" />
             <Parameter Name="Contrasena" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="PagarCarrito_SP">
+            <Parameter Name="ConUsuario" Mode="In" Type="Int64" />
+          </FunctionImport>
           <FunctionImport Name="REGISTRARCUENTA_SP">
             <Parameter Name="Identificacion" Mode="In" Type="String" />
             <Parameter Name="Nombre" Mode="In" Type="String" />
             <Parameter Name="Correo" Mode="In" Type="String" />
             <Parameter Name="Contrasena" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="TCarrito" EntityType="ClasePrograAvanzadaModel.TCarrito" />
-          <EntitySet Name="TDetalle" EntityType="ClasePrograAvanzadaModel.TDetalle" />
-          <EntitySet Name="TMaestro" EntityType="ClasePrograAvanzadaModel.TMaestro" />
-          <AssociationSet Name="FK_TCarrito_TProducto" Association="ClasePrograAvanzadaModel.FK_TCarrito_TProducto">
-            <End Role="TProducto" EntitySet="TProducto" />
-            <End Role="TCarrito" EntitySet="TCarrito" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TCarrito_TUsuarios" Association="ClasePrograAvanzadaModel.FK_TCarrito_TUsuarios">
-            <End Role="TUsuarios" EntitySet="TUsuarios" />
-            <End Role="TCarrito" EntitySet="TCarrito" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TDetalle_TMaestro" Association="ClasePrograAvanzadaModel.FK_TDetalle_TMaestro">
-            <End Role="TMaestro" EntitySet="TMaestro" />
-            <End Role="TDetalle" EntitySet="TDetalle" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TDetalle_TProducto" Association="ClasePrograAvanzadaModel.FK_TDetalle_TProducto">
-            <End Role="TProducto" EntitySet="TProducto" />
-            <End Role="TDetalle" EntitySet="TDetalle" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TMaestro_TUsuarios" Association="ClasePrograAvanzadaModel.FK_TMaestro_TUsuarios">
-            <End Role="TUsuarios" EntitySet="TUsuarios" />
-            <End Role="TMaestro" EntitySet="TMaestro" />
-          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="IniciarSesion_SP_Result">
           <Property Type="Int64" Name="ConUsuario" Nullable="false" />
@@ -336,107 +440,45 @@
           <Property Type="String" Name="ProvinciaDescripcion" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="RolDescripcion" Nullable="false" MaxLength="100" />
         </ComplexType>
-        <EntityType Name="TCarrito">
-          <Key>
-            <PropertyRef Name="ConCarrito" />
-          </Key>
-          <Property Name="ConCarrito" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ConUsuario" Type="Int64" Nullable="false" />
-          <Property Name="ConProducto" Type="Int64" Nullable="false" />
-          <Property Name="Cantidad" Type="Int32" Nullable="false" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="TProducto" Relationship="ClasePrograAvanzadaModel.FK_TCarrito_TProducto" FromRole="TCarrito" ToRole="TProducto" />
-          <NavigationProperty Name="TUsuarios" Relationship="ClasePrograAvanzadaModel.FK_TCarrito_TUsuarios" FromRole="TCarrito" ToRole="TUsuarios" />
-        </EntityType>
-        <EntityType Name="TDetalle">
-          <Key>
-            <PropertyRef Name="ConDetalle" />
-          </Key>
-          <Property Name="ConDetalle" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ConMaestro" Type="Int64" Nullable="false" />
-          <Property Name="ConProducto" Type="Int64" Nullable="false" />
-          <Property Name="CantidadCompra" Type="Int32" Nullable="false" />
-          <Property Name="PrecioCompra" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <NavigationProperty Name="TMaestro" Relationship="ClasePrograAvanzadaModel.FK_TDetalle_TMaestro" FromRole="TDetalle" ToRole="TMaestro" />
-          <NavigationProperty Name="TProducto" Relationship="ClasePrograAvanzadaModel.FK_TDetalle_TProducto" FromRole="TDetalle" ToRole="TProducto" />
-        </EntityType>
-        <EntityType Name="TMaestro">
-          <Key>
-            <PropertyRef Name="ConMaestro" />
-          </Key>
-          <Property Name="ConMaestro" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ConUsuario" Type="Int64" Nullable="false" />
-          <Property Name="TotalFactura" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="FechaCompra" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="TDetalle" Relationship="ClasePrograAvanzadaModel.FK_TDetalle_TMaestro" FromRole="TMaestro" ToRole="TDetalle" />
-          <NavigationProperty Name="TUsuarios" Relationship="ClasePrograAvanzadaModel.FK_TMaestro_TUsuarios" FromRole="TMaestro" ToRole="TUsuarios" />
-        </EntityType>
-        <Association Name="FK_TCarrito_TProducto">
-          <End Type="ClasePrograAvanzadaModel.TProducto" Role="TProducto" Multiplicity="1" />
-          <End Type="ClasePrograAvanzadaModel.TCarrito" Role="TCarrito" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TProducto">
-              <PropertyRef Name="ConProducto" />
-            </Principal>
-            <Dependent Role="TCarrito">
-              <PropertyRef Name="ConProducto" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TCarrito_TUsuarios">
-          <End Type="ClasePrograAvanzadaModel.TUsuarios" Role="TUsuarios" Multiplicity="1" />
-          <End Type="ClasePrograAvanzadaModel.TCarrito" Role="TCarrito" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TUsuarios">
-              <PropertyRef Name="ConUsuario" />
-            </Principal>
-            <Dependent Role="TCarrito">
-              <PropertyRef Name="ConUsuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TDetalle_TMaestro">
-          <End Type="ClasePrograAvanzadaModel.TMaestro" Role="TMaestro" Multiplicity="1" />
-          <End Type="ClasePrograAvanzadaModel.TDetalle" Role="TDetalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TMaestro">
-              <PropertyRef Name="ConMaestro" />
-            </Principal>
-            <Dependent Role="TDetalle">
-              <PropertyRef Name="ConMaestro" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TDetalle_TProducto">
-          <End Type="ClasePrograAvanzadaModel.TProducto" Role="TProducto" Multiplicity="1" />
-          <End Type="ClasePrograAvanzadaModel.TDetalle" Role="TDetalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TProducto">
-              <PropertyRef Name="ConProducto" />
-            </Principal>
-            <Dependent Role="TDetalle">
-              <PropertyRef Name="ConProducto" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TMaestro_TUsuarios">
-          <End Type="ClasePrograAvanzadaModel.TUsuarios" Role="TUsuarios" Multiplicity="1" />
-          <End Type="ClasePrograAvanzadaModel.TMaestro" Role="TMaestro" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TUsuarios">
-              <PropertyRef Name="ConUsuario" />
-            </Principal>
-            <Dependent Role="TMaestro">
-              <PropertyRef Name="ConUsuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ClasePrograAvanzadaModelStoreContainer" CdmEntityContainer="DBMN">
+          <EntitySetMapping Name="TCarrito">
+            <EntityTypeMapping TypeName="ClasePrograAvanzadaModel.TCarrito">
+              <MappingFragment StoreEntitySet="TCarrito">
+                <ScalarProperty Name="ConCarrito" ColumnName="ConCarrito" />
+                <ScalarProperty Name="ConUsuario" ColumnName="ConUsuario" />
+                <ScalarProperty Name="ConProducto" ColumnName="ConProducto" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TDetalle">
+            <EntityTypeMapping TypeName="ClasePrograAvanzadaModel.TDetalle">
+              <MappingFragment StoreEntitySet="TDetalle">
+                <ScalarProperty Name="ConDetalle" ColumnName="ConDetalle" />
+                <ScalarProperty Name="ConMaestro" ColumnName="ConMaestro" />
+                <ScalarProperty Name="ConProducto" ColumnName="ConProducto" />
+                <ScalarProperty Name="CantidadCompra" ColumnName="CantidadCompra" />
+                <ScalarProperty Name="PrecioCompra" ColumnName="PrecioCompra" />
+                <ScalarProperty Name="Impuesto" ColumnName="Impuesto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TMaestro">
+            <EntityTypeMapping TypeName="ClasePrograAvanzadaModel.TMaestro">
+              <MappingFragment StoreEntitySet="TMaestro">
+                <ScalarProperty Name="ConMaestro" ColumnName="ConMaestro" />
+                <ScalarProperty Name="ConUsuario" ColumnName="ConUsuario" />
+                <ScalarProperty Name="TotalFactura" ColumnName="TotalFactura" />
+                <ScalarProperty Name="FechaCompra" ColumnName="FechaCompra" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TProducto">
             <EntityTypeMapping TypeName="ClasePrograAvanzadaModel.TProducto">
               <MappingFragment StoreEntitySet="TProducto">
@@ -494,39 +536,8 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PagarCarrito_SP" FunctionName="ClasePrograAvanzadaModel.Store.PagarCarrito_SP" />
           <FunctionImportMapping FunctionImportName="REGISTRARCUENTA_SP" FunctionName="ClasePrograAvanzadaModel.Store.REGISTRARCUENTA_SP" />
-          <EntitySetMapping Name="TCarrito">
-            <EntityTypeMapping TypeName="ClasePrograAvanzadaModel.TCarrito">
-              <MappingFragment StoreEntitySet="TCarrito">
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="ConProducto" ColumnName="ConProducto" />
-                <ScalarProperty Name="ConUsuario" ColumnName="ConUsuario" />
-                <ScalarProperty Name="ConCarrito" ColumnName="ConCarrito" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TDetalle">
-            <EntityTypeMapping TypeName="ClasePrograAvanzadaModel.TDetalle">
-              <MappingFragment StoreEntitySet="TDetalle">
-                <ScalarProperty Name="PrecioCompra" ColumnName="PrecioCompra" />
-                <ScalarProperty Name="CantidadCompra" ColumnName="CantidadCompra" />
-                <ScalarProperty Name="ConProducto" ColumnName="ConProducto" />
-                <ScalarProperty Name="ConMaestro" ColumnName="ConMaestro" />
-                <ScalarProperty Name="ConDetalle" ColumnName="ConDetalle" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TMaestro">
-            <EntityTypeMapping TypeName="ClasePrograAvanzadaModel.TMaestro">
-              <MappingFragment StoreEntitySet="TMaestro">
-                <ScalarProperty Name="FechaCompra" ColumnName="FechaCompra" />
-                <ScalarProperty Name="TotalFactura" ColumnName="TotalFactura" />
-                <ScalarProperty Name="ConUsuario" ColumnName="ConUsuario" />
-                <ScalarProperty Name="ConMaestro" ColumnName="ConMaestro" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

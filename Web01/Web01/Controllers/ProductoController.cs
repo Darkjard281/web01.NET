@@ -12,7 +12,7 @@ namespace Web01.Controllers
 {
     public class ProductoController : Controller
     {
-        
+        CarritoModel carritoModelo =  new CarritoModel();
         ProductoModel productModel = new ProductoModel();
 
         [HttpGet]
@@ -86,6 +86,10 @@ namespace Web01.Controllers
             var resp = productModel.ActualizarProducto(productoEnt);
             if (resp == "OK")
             {
+
+                var datos = carritoModelo.ConsultarCarrito().Where(x => x.ConUsuario == long.Parse(Session["ConUsuario"].ToString())).ToList();
+                Session["Cantidad"] = datos.Sum(x => x.Cantidad);
+                Session["Subtotal"] = datos.Sum(x => x.Precio);
                 return RedirectToAction("ConsultarProductos", "Producto");
             }
             else {

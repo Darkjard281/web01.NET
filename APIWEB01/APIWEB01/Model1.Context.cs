@@ -27,13 +27,13 @@ namespace APIWEB01
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<TCarrito> TCarrito { get; set; }
+        public virtual DbSet<TDetalle> TDetalle { get; set; }
+        public virtual DbSet<TMaestro> TMaestro { get; set; }
         public virtual DbSet<TProducto> TProducto { get; set; }
         public virtual DbSet<TProvincia> TProvincia { get; set; }
         public virtual DbSet<TRol> TRol { get; set; }
         public virtual DbSet<TUsuarios> TUsuarios { get; set; }
-        public virtual DbSet<TCarrito> TCarrito { get; set; }
-        public virtual DbSet<TDetalle> TDetalle { get; set; }
-        public virtual DbSet<TMaestro> TMaestro { get; set; }
     
         public virtual ObjectResult<IniciarSesion_SP_Result> IniciarSesion_SP(string correo, string contrasena)
         {
@@ -46,6 +46,15 @@ namespace APIWEB01
                 new ObjectParameter("Contrasena", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IniciarSesion_SP_Result>("IniciarSesion_SP", correoParameter, contrasenaParameter);
+        }
+    
+        public virtual int PagarCarrito_SP(Nullable<long> conUsuario)
+        {
+            var conUsuarioParameter = conUsuario.HasValue ?
+                new ObjectParameter("ConUsuario", conUsuario) :
+                new ObjectParameter("ConUsuario", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PagarCarrito_SP", conUsuarioParameter);
         }
     
         public virtual int REGISTRARCUENTA_SP(string identificacion, string nombre, string correo, string contrasena)

@@ -1,8 +1,11 @@
 ﻿@model Web01.Entities.ProductoEnt
+
+
     
 @{
     ViewBag.Title = "Actualizar Producto";
     Layout = "~/Views/Shared/_Layout.cshtml";
+   
 }
 
 
@@ -36,14 +39,18 @@
             <div class="form-group">
                 <label for="Cantidad">Cantidad</label>
                 @Html.TextBoxFor(m => m.Cantidad, new { @type = "number", @class = "form-control form-control-lg", @placeholder = "Cantidad" })
+            </div><div class="form-group">
+                <!--Crear Toggle bottom-->
+                <label for="Estado">Estado</label>
+                <input type="checkbox" id="Estado" name="Estado"  value="true" @(Model.Estado ? "checked='checked'" : "") />
             </div>
             <div class="form-group row">
                 <div class="col-6">
-                    <label >Foto Antes:</label>
+                    <label>Foto Antes:</label>
                     <img id="ImagenAntes" class="rounded mx-auto d-block" style="width:150px; height:150px" src="@Model.Imagen">
                 </div>
                 <div class="col-6">
-                    <label >Foto Despues:</label>
+                    <label>Foto Despues:</label>
                     <img id="ImagenDespues" class="rounded mx-auto d-block" style="width:150px; height:150px" src="@Model.Imagen">
                 </div>
             </div>
