@@ -20,7 +20,7 @@ namespace APIWEB01.Controllers
 
                 var datos = (from x in context.TCarrito
                              where x.ConUsuario == tcarrito.ConUsuario 
-                             && x.ConCarrito == tcarrito.ConCarrito
+                             && x.ConProducto == tcarrito.ConProducto
                              select x ).FirstOrDefault();
 
                 if (datos == null)
@@ -58,7 +58,7 @@ namespace APIWEB01.Controllers
                             p.Nombre,
                             Subtotal = p.Precio * c.Cantidad, //Creados
                             Impuesto = (p.Precio * c.Cantidad) * 0.13M, //Creados -- Constantes decimales se le agrega una M
-                            Total = (p.Precio * c.Cantidad) + (p.Precio * c.Cantidad)
+                            Total = (p.Precio * c.Cantidad) + (p.Precio * c.Cantidad) * 0.13M
                         }).ToList();
 
             }

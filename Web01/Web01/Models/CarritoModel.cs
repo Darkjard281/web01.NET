@@ -40,7 +40,7 @@ namespace Web01.Models
 
         }
 
-        public string PagarCarrito(CarritoEnt entidad)
+        public int PagarCarrito(CarritoEnt entidad)
         {
 
             using (var client = new HttpClient())
@@ -49,7 +49,7 @@ namespace Web01.Models
                 string url = UrlApi + "PagarCarrito";
                 JsonContent contenido = JsonContent.Create(entidad);
                 var resp = client.PostAsync(url, contenido).Result;
-                return resp.Content.ReadFromJsonAsync<string>().Result;
+                return resp.Content.ReadFromJsonAsync<int>().Result;
 
 
             }
